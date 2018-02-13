@@ -36,6 +36,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/RoundRobin.o \
+	${OBJECTDIR}/Scheduler.o \
 	${OBJECTDIR}/ShortestProcessNext.o \
 	${OBJECTDIR}/main.o
 
@@ -58,16 +59,21 @@ LDLIBSOPTIONS=
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/maxprogramminglab1
+	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/programminglab1
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/maxprogramminglab1: ${OBJECTFILES}
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/programminglab1: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
-	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/maxprogramminglab1 ${OBJECTFILES} ${LDLIBSOPTIONS}
+	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/programminglab1 ${OBJECTFILES} ${LDLIBSOPTIONS}
 
 ${OBJECTDIR}/RoundRobin.o: RoundRobin.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/RoundRobin.o RoundRobin.cpp
+
+${OBJECTDIR}/Scheduler.o: Scheduler.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Scheduler.o Scheduler.cpp
 
 ${OBJECTDIR}/ShortestProcessNext.o: ShortestProcessNext.cpp
 	${MKDIR} -p ${OBJECTDIR}

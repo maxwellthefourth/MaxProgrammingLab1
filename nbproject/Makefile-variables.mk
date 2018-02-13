@@ -9,19 +9,19 @@ CND_DISTDIR=dist
 # Debug configuration
 CND_PLATFORM_Debug=GNU-Linux
 CND_ARTIFACT_DIR_Debug=dist/Debug/GNU-Linux
-CND_ARTIFACT_NAME_Debug=maxprogramminglab1
-CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-Linux/maxprogramminglab1
+CND_ARTIFACT_NAME_Debug=programminglab1
+CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-Linux/programminglab1
 CND_PACKAGE_DIR_Debug=dist/Debug/GNU-Linux/package
-CND_PACKAGE_NAME_Debug=maxprogramminglab1.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/GNU-Linux/package/maxprogramminglab1.tar
+CND_PACKAGE_NAME_Debug=programminglab1.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/GNU-Linux/package/programminglab1.tar
 # Release configuration
 CND_PLATFORM_Release=GNU-Linux
 CND_ARTIFACT_DIR_Release=dist/Release/GNU-Linux
-CND_ARTIFACT_NAME_Release=maxprogramminglab1
-CND_ARTIFACT_PATH_Release=dist/Release/GNU-Linux/maxprogramminglab1
+CND_ARTIFACT_NAME_Release=programminglab1
+CND_ARTIFACT_PATH_Release=dist/Release/GNU-Linux/programminglab1
 CND_PACKAGE_DIR_Release=dist/Release/GNU-Linux/package
-CND_PACKAGE_NAME_Release=maxprogramminglab1.tar
-CND_PACKAGE_PATH_Release=dist/Release/GNU-Linux/package/maxprogramminglab1.tar
+CND_PACKAGE_NAME_Release=programminglab1.tar
+CND_PACKAGE_PATH_Release=dist/Release/GNU-Linux/package/programminglab1.tar
 #
 # include compiler specific variables
 #

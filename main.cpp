@@ -11,8 +11,7 @@
 #include <iostream>
 #include <vector>
 
-#include "RoundRobin.h"
-#include "ShortestProcessNext.h"
+#include "Scheduler.h"
 using namespace std;
 
 int main(int argc, char** argv) {
@@ -56,14 +55,14 @@ int main(int argc, char** argv) {
 //    std::cout.rdbuf(cout.rdbuf());
     
     // Execute Round Robin
-    cout << "RR " << block_duration << " " << time_slice << endl;
-    RoundRobin roundRobinAlgorithm(names, arrival_times, total_times, block_intervals, block_duration, time_slice);
-    roundRobinAlgorithm.Execute();
+//    cout << "RR " << block_duration << " " << time_slice << endl;
+    Scheduler scheduler(names, arrival_times, total_times, block_intervals);
+//    scheduler.RoundRobin(block_duration, time_slice);
     
     // Execute Shortest Process Next
     cout << "SPN " << block_duration << endl;
-    ShortestProcessNext shortestProcessNextAlgorithm(names, arrival_times, total_times, block_intervals);
-    shortestProcessNextAlgorithm.Execute();
+    //Scheduler scheduler2(names, arrival_times, total_times, block_intervals);
+    scheduler.ShortestProcessNext(block_duration);
     
     return 0;
 }
