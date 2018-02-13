@@ -42,6 +42,16 @@ void RoundRobin::Execute() {
     while (loop) {
         currentName = names[tempCompare];
         length = time_slice;
+        
+        // Remove process from queue once it finishes
+        if (total_times[tempCompare] == 0) {
+            turnaroundTime += currentTime;
+            names.erase(names.begin()+tempCompare);
+            arrival_times.erase(arrival_times.begin()+tempCompare);
+            total_times.erase(total_times.begin()+tempCompare);
+            block_intervals.erase(block_intervals.begin()+tempCompare);
+            blockTimes.erase(blockTimes.begin()+tempCompare);
+        }
 
         // check if blocked
         int amountBlocked = 0;
@@ -83,16 +93,6 @@ void RoundRobin::Execute() {
             }
             total_times[tempCompare] -= length;
             block_intervals[tempCompare] -= length;
-        }
-
-        // Remove process from queue once it finishes
-        if (total_times[tempCompare] == 0) {
-            turnaroundTime += currentTime;
-            names.erase(names.begin()+tempCompare);
-            arrival_times.erase(arrival_times.begin()+tempCompare);
-            total_times.erase(total_times.begin()+tempCompare);
-            block_intervals.erase(block_intervals.begin()+tempCompare);
-            blockTimes.erase(blockTimes.begin()+tempCompare);
         }
         
         // update tempCompare (look for next non-blocked process)
