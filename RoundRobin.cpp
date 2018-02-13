@@ -40,7 +40,6 @@ void RoundRobin::Execute() {
     
     bool loop = true;
     while (loop) {
-        cout << tempCompare << endl;
         currentName = names[tempCompare];
         length = time_slice;
 
@@ -134,7 +133,7 @@ void RoundRobin::Execute() {
             loop = false;
         } else {
             cout << " " << currentTime << "\t" << currentName << "\t" << length << "\t" << status << "\t" << endl;
-            cout << "block times: " << blockTimes[0] << " " << blockTimes[1] << " " << blockTimes[2] << endl;
+//            cout << "block times: " << blockTimes[0] << " " << blockTimes[1] << " " << blockTimes[2] << endl;
         }
         currentTime += length;
     }
