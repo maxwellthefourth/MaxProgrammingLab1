@@ -13,65 +13,131 @@ RoundRobin::RoundRobin(vector<string> names, vector<int> arrival_times, vector<i
     this->arrival_times = arrival_times;
     this->total_times = total_times;
     this->block_intervals = block_intervals;
-    int temp = block_intervals.size();
-    for (int i = 0; i < temp; i++)
-        block_intervals[temp+i] = block_intervals[i];
     this->block_duration = block_duration;
     this->time_slice = time_slice;
 }
 
+//void RoundRobin::Execute() {
+//    // Organize arrays into order of arrival time
+//    // Iterator through each process until they are done, switching every 10
+//}
+
 void RoundRobin::Execute() {
-    int tempCompare = updateTempCompare();
-    vector<int> blockDurationCheck;
-    
-    //temp stuff, please fix
-    int currentTime = simulationTime; // Set first default time
-    string currentName = names[tempCompare]; // Set first default name
-    int length = time_slice; // Set first default length
-    string status = "B"; // Set first default status
-    if (length < total_times[tempCompare]) { // Check if length is less than overall total time for process. If it is, updates length and status
-        length = total_times[tempCompare];
-        status = "T";
+    int tempCompare = 0;
+    int temp = block_intervals.size();
+    block_intervals.resize(block_intervals.size()*2);
+    for (int i = 0; i < temp; i++) {
+        block_intervals[temp+i] = block_intervals[i];
     }
+    
+    int currentTime = simulationTime; // Initialize current time
+    string currentName = names[0]; // Set first to default name
+    int length = time_slice; // Initialize length
+    string status = "temp"; // Initialize status
+    vector<int> blockTimes(names.size(), 0); // Create a vector to see which are blocked
+    double turnaroundTime = 0;
+    int initialSize = names.size();
     
     bool loop = true;
     while (loop) {
-        if (time_slice < block_intervals[tempCompare]) {
-            length = time_slice;
-            status = "S";
+        cout << tempCompare << endl;
+        currentName = names[tempCompare];
+        length = time_slice;
+
+        // check if blocked
+        int amountBlocked = 0;
+        bool allBlocked = true;
+        for (int i = 0; i < names.size(); i++) {
+            if (blockTimes[i] > amountBlocked) {
+                amountBlocked = blockTimes[i];
+            }
+            if (blockTimes[i] == 0) {
+                allBlocked = false;
+            }
         }
-        else if (time_slice > block_intervals[tempCompare]) {
-            length = time_slice - block_intervals[tempCompare];
-            status = "B";
-        }
-        block_intervals[tempCompare] -= length; // Subtract from block-interval to know when to set status to block
-        total_times[tempCompare] -= length;
         
-        if (block_intervals[tempCompare] = 0) {
-            block_intervals[tempCompare] = block_intervals[block_intervals.size()/2+tempCompare];
-            blockDurationCheck.push_back(tempCompare);
+        if (allBlocked) {
+            currentName = "<idle>";
+            status = "I";
+            length = amountBlocked;
         }
-        
-        if (total_times[tempCompare] = 0) {
-            status = "T";
+        else {
+            // check if process is terminating or is blocking
+            if (total_times[tempCompare] > block_intervals[tempCompare]) { // if the total amount of time is greater than the time for the block interval, it will be blocked before it terminates
+                if (length >= block_intervals[tempCompare]) {
+                    status = "B";
+                    length = block_intervals[tempCompare];
+                    blockTimes[tempCompare] = block_duration+length;
+                }
+                else {
+                    status = "S";
+                }
+            }
+            else {
+                if (length >= total_times[tempCompare]) {
+                    status = "T";
+                    length = total_times[tempCompare];
+                }
+                else {
+                    status = "S";
+                }
+            }
+            total_times[tempCompare] -= length;
+            block_intervals[tempCompare] -= length;
+        }
+
+        // Remove process from queue once it finishes
+        if (total_times[tempCompare] == 0) {
+            turnaroundTime += currentTime;
             names.erase(names.begin()+tempCompare);
             arrival_times.erase(arrival_times.begin()+tempCompare);
             total_times.erase(total_times.begin()+tempCompare);
             block_intervals.erase(block_intervals.begin()+tempCompare);
+            blockTimes.erase(blockTimes.begin()+tempCompare);
         }
         
-        cout << " " << currentTime << "\t" << currentName << "\t" << length << "\t" << status << "\t" << endl;
+        // update tempCompare (look for next non-blocked process)
+        if (names.size() == 1)
+            tempCompare = 0;
+        else if (!allBlocked) {
+            while (true) {
+                if (tempCompare == names.size()-1)
+                    tempCompare = 0;
+                else
+                    tempCompare++;
+                if (blockTimes[tempCompare] == 0)
+                    break;
+            }
+        }
+        else {
+            int temp = 0;
+            for (int i = 0; i < names.size(); i++) {
+                if (blockTimes[i] > blockTimes[temp])
+                    tempCompare = i;
+            }        
+        }
+        
+        // update blockTimes
+        for (int i = 0; i < blockTimes.size(); i++){
+            if (blockTimes[i] > length) {
+                blockTimes[i] -= length;
+            }
+            else if (blockTimes[i] <= length && blockTimes[i] > 0) {
+                blockTimes[i] = 0;
+                block_intervals[i] = block_intervals[i+block_intervals.size()/2];
+            }
+        }
+
+        // print out            
+        if (names.size() == 0) {
+            cout << " " << currentTime << "\t" << "<done>" << "\t" << turnaroundTime/initialSize << "\t" << endl;
+            loop = false;
+        } else {
+            cout << " " << currentTime << "\t" << currentName << "\t" << length << "\t" << status << "\t" << endl;
+            cout << "block times: " << blockTimes[0] << " " << blockTimes[1] << " " << blockTimes[2] << endl;
+        }
         currentTime += length;
-        tempCompare = updateTempCompare();
     }
 }
 
-int RoundRobin::updateTempCompare() {
-    int sizeComparison = 0;
-    for (int i = 0; i < arrival_times.size(); i++) {
-        if (arrival_times[i] < arrival_times[sizeComparison]) {
-            sizeComparison = i;
-        }
-    }
-    return sizeComparison;
-}
+

@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=ProgrammingProject1
+PROJECTNAME=MaxProgrammingLab1
 
 # Active Configuration
 DEFAULTCONF=Debug

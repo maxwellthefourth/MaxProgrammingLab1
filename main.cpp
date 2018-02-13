@@ -45,7 +45,6 @@ int main(int argc, char** argv) {
     while (getline(inFile, tempLine)) {
         std::istringstream iss(tempLine);
         while (iss >> tempWord >> tempNum1 >> tempNum2 >> tempNum3) {
-            cout << tempWord << " " << tempNum1 << " " << tempNum2 << " " << tempNum3 << endl;
             names.push_back(tempWord);
             arrival_times.push_back(tempNum1);
             total_times.push_back(tempNum2);
@@ -53,14 +52,15 @@ int main(int argc, char** argv) {
         }
     }
     
+//    ofstream cout("output.txt");
+//    std::cout.rdbuf(cout.rdbuf());
+    
     // Execute Round Robin
-    cout << "Doing Round Robin Algorithm" << endl;
     cout << "RR " << block_duration << " " << time_slice << endl;
     RoundRobin roundRobinAlgorithm(names, arrival_times, total_times, block_intervals, block_duration, time_slice);
     roundRobinAlgorithm.Execute();
     
     // Execute Shortest Process Next
-    cout << "Doing Shortest Process Next Algorithm" << endl;
     cout << "SPN " << block_duration << endl;
     ShortestProcessNext shortestProcessNextAlgorithm(names, arrival_times, total_times, block_intervals);
     shortestProcessNextAlgorithm.Execute();
